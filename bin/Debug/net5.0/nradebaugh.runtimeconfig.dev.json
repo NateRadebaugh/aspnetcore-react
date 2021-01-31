@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/Users/AspNetCoreReact/.dotnet/store/|arch|/|tfm|",
-      "/Users/AspNetCoreReact/.nuget/packages"
-    ]
-  }
-}
