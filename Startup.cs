@@ -26,7 +26,6 @@ namespace AspNetCoreReact
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var isDevelopment = env.IsDevelopment();
-            isDevelopment = false;
             if (isDevelopment)
             {
                 app.UseDeveloperExceptionPage();
