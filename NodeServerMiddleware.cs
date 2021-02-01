@@ -31,9 +31,6 @@ namespace Microsoft.AspNetCore.SpaServices
         /// Handles requests by passing them through to an instance of the node server.
         /// This means you can always serve up-to-date CLI-built resources without having
         /// to run the node server manually.
-        ///
-        /// This feature should only be used in development. For production deployments, be
-        /// sure not to enable the node server.
         /// </summary>
         /// <param name="spaBuilder">The <see cref="ISpaBuilder"/>.</param>
         /// <param name="npmScript">The name of the script in your package.json file that launches the node server.</param>
@@ -80,7 +77,7 @@ namespace Microsoft.AspNetCore.SpaServices
             //   wanted to, because in general the node server has no certificate
             var targetUriTask = portTask.ContinueWith(
             task => new UriBuilder("http", "localhost", task.Result).Uri);
-            spaBuilder.UseProxyToSpaDevelopmentServer(() =>
+            spaBuilder.UseProxyToSpaNodeServer(() =>
             {
                 // On each request, we create a separate startup task with its own timeout. That way, even if
                 // the first request times out, subsequent requests could still work.
@@ -99,9 +96,6 @@ namespace Microsoft.AspNetCore.SpaServices
             var envVars = new Dictionary<string, string>
             {
                 {"PORT", portNumber.ToString()},
-                {
-                    "BROWSER", "none"
-                }, // We don't want node to open its own extra browser window pointing to the internal dev server port
             };
 
             var args = portArgPrefix != null
@@ -321,10 +315,8 @@ namespace Microsoft.AspNetCore.SpaServices
             {
                 return task.Result;
             }
-            else
-            {
-                throw new TimeoutException(message);
-            }
+
+            throw new TimeoutException(message);
         }
     }
 

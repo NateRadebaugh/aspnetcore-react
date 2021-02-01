@@ -34,7 +34,9 @@ namespace AspNetCoreReact
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            var isDevelopment = env.IsDevelopment();
+            isDevelopment = false;
+            if (isDevelopment)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -47,7 +49,6 @@ namespace AspNetCoreReact
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -62,9 +63,13 @@ namespace AspNetCoreReact
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
+                if (isDevelopment)
                 {
                     spa.UseNodeServer(npmScript: "dev", portArgPrefix: "--port ", startupMessage: "started server on");
+                }
+                else
+                {
+                    spa.UseNodeServer(npmScript: "start", portArgPrefix: "--port ", startupMessage: "started server on");
                 }
             });
         }
